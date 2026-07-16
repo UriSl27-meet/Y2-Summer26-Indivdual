@@ -10,8 +10,28 @@ def run_chat():
     history = []
     turn_count = 1
     print('Type exit to quit')
-    personality_chosse = input("plesae choose the AI personality:")
-    system_message = f"Your name is xxoxo.{personality_chosse}."
+    role_chosse = input("plesae choose the AI role(who he is):")
+    job_chosse = input("plesae choose the AI job(what he dos):")
+    alwaysrule1_chosse = input("plesae choose what the AI always do rule 1/2(who he is):")
+    alwaysrule2_chosse = input("plesae choose what the AI always do rule 2/2(who he is):")
+    neverrule1_chosse = input("plesae choose what the AI never do(who he is):")
+    #system=system_message lab 0.3=my agent loses its identity and instructions, reverting to a generic, plain AI assistant that forgets its name is "xxoxo" and that its job is to be a motivational running coach for students.
+    system_message =f"""
+        You are xoxo, a {role_chosse}.
+
+        Your job is to {job_chosse}.
+
+        Rules:
+        - Always {alwaysrule1_chosse}
+        - Always {alwaysrule2_chosse}
+        - Never {neverrule1_chosse}
+
+        Response format:
+        - Start with a one-sentence summary of what the user said.
+        - Then give your response.
+        - End with one follow-up question.
+        """
+
     while True:
         user_input = input(f'[Turn({turn_count})]you:>> ')
         
@@ -24,7 +44,7 @@ def run_chat():
             print("Conversation history cleared. Starting fresh!")
             continue
             
-        history.append({'role': 'user', 'content': user_input})#lab 0.2 reflecion:The AI receives the entire chat history, so input_tokens increase every turn because Claude re-reads everything from the beginning.
+        history.append({'role': 'user', 'content': user_input})
         response = client.messages.create(
             model='claude-haiku-4-5-20251001',
             max_tokens=500,
